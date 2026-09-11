@@ -3,6 +3,14 @@
 # Direct group: ❌不代理
 
 prepend:
+  # ===== 私有网络 / 内网 / 校园网（放最前，优先级最高）=====
+  - GEOIP,private,❌不代理,no-resolve
+  - GEOIP,LAN,❌不代理,no-resolve
+  - IP-CIDR,10.0.0.0/8,❌不代理,no-resolve
+  - IP-CIDR,172.16.0.0/12,❌不代理,no-resolve
+  - IP-CIDR,192.168.0.0/16,❌不代理,no-resolve
+  - IP-CIDR,169.254.0.0/16,❌不代理,no-resolve
+
   # ===== 教育 / SUSTech =====
   - DOMAIN-SUFFIX,sustech.edu.cn,❌不代理
   - DOMAIN-KEYWORD,sustech,❌不代理

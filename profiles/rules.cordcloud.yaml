@@ -3,6 +3,14 @@
 # Direct group: 🎯 全球直连
 
 prepend:
+  # ===== 私有网络 / 内网 / 校园网（放最前，优先级最高）=====
+  - GEOIP,private,🎯 全球直连,no-resolve
+  - GEOIP,LAN,🎯 全球直连,no-resolve
+  - IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve
+  - IP-CIDR,172.16.0.0/12,🎯 全球直连,no-resolve
+  - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
+  - IP-CIDR,169.254.0.0/16,🎯 全球直连,no-resolve
+
   # ===== 教育 / SUSTech =====
   - DOMAIN-SUFFIX,sustech.edu.cn,🎯 全球直连
   - DOMAIN-KEYWORD,sustech,🎯 全球直连

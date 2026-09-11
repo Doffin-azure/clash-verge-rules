@@ -11,6 +11,18 @@
 # ============================================================
 
 prepend:
+  # ===== 私有网络 / 内网 / 校园网（放最前，优先级最高）=====
+  # GEOIP,private 覆盖 10.0.0.0/8、172.16.0.0/12、192.168.0.0/16、
+  # 169.254.0.0/16、127.0.0.0/8 等保留地址段（mihomo 内置集合）。
+  # 校园内网服务（如 *.sustech.edu.cn -> 172.18.x.x）靠这条自动直连。
+  - GEOIP,private,<DIRECT_GROUP>,no-resolve
+  - GEOIP,LAN,<DIRECT_GROUP>,no-resolve
+  # 显式列出常见私有段，兼容不支持 GEOIP,private 的内核
+  - IP-CIDR,10.0.0.0/8,<DIRECT_GROUP>,no-resolve
+  - IP-CIDR,172.16.0.0/12,<DIRECT_GROUP>,no-resolve
+  - IP-CIDR,192.168.0.0/16,<DIRECT_GROUP>,no-resolve
+  - IP-CIDR,169.254.0.0/16,<DIRECT_GROUP>,no-resolve
+
   # ===== 教育 / SUSTech =====
   - DOMAIN-SUFFIX,sustech.edu.cn,<DIRECT_GROUP>
   - DOMAIN-KEYWORD,sustech,<DIRECT_GROUP>

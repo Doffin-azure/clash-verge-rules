@@ -1,0 +1,72 @@
+# ============================================================
+# Clash Verge - Merge 模板：私有网络 / 校园网 DNS 修复（通用版）
+#
+# 用途：
+#   修复 TUN + fake-ip 模式下，访问内网/校园网服务时，
+#   域名被解析成假 IP（198.18.x.x）而不是真实内网 IP（10.x / 172.16-31.x / 192.168.x）的问题。
+#
+# 典型症状：
+#   - 校内系统（如 https://tis.sustech.edu.cn/）打不开，或一直转圈
+#   - 解析该域名得到的是 198.18.x.x，而不是 172.18.x.x
+#
+# 原理：
+#   1. fake-ip-filter：内网域名不做 fake-ip，走真实解析。
+#   2. nameserver-policy：这些域名用系统(校园网)DNS 解析，只有它能解析出内网地址。
+#
+# 借鉴来源：
+#   - MetaCubeX/meta-rules-dat (nameserver-policy 用 system / geosite)
+#   - Loyalsoldier/clash-rules  (private 直连 + nameserver-policy 思路)
+#
+# 使用：Clash Verge -> 订阅右键 -> 编辑 Merge，把下面 dns 段并入你的 merge 文件。
+# ============================================================
+
+dns:
+  # 内网 / 校园网 / 本地域名：不做 fake-ip，直接走真实解析
+  # 使用“完整列表”以兼容部分版本的“替换”语义（避免覆盖订阅自带条目）。
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '*.arpa'
+    - '*.localhost'
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+    - localhost.ptlogin2.qq.com
+    - '*.msftncsi.com'
+    - www.msftconnecttest.com
+    # --- 内网 / 校园网 ---
+    - '*.sustech.edu.cn'
+    - '*.sustc.edu.cn'
+    - '*.sustech.net'
+    - '*.edu.cn'
+    - '*.localdomain'
+    - '*.home.arpa'
+    - '*.internal'
+    - '*.intranet'
+
+  # 内网 / 校园网域名用系统 DNS 解析，才能拿到真实内网地址。
+  # system = 使用操作系统配置的 DNS（即校园网/路由器下发的 DNS）。
+  nameserver-policy:
+    '+.sustech.edu.cn': system
+    '+.sustc.edu.cn': system
+    '+.sustech.net': system
+    '+.edu.cn': system
+    '+.local': system
+    '+.localdomain': system
+    '+.home.arpa': system
+    '+.internal': system
+    '+.intranet': system
+
+# ------------------------------------------------------------
+# 参考：MetaCubeX 官方推荐的 nameserver-policy 写法（可一并并入）
+#
+# dns:
+#   nameserver-policy:
+#     "geosite:cn,private,apple":
+#       - https://doh.pub/dns-query
+#       - https://dns.alidns.com/dns-query
+#     "geosite:category-ads-all": rcode://success
+#
+# 说明：geosite:private 是内置的“私有/保留域名”集合；
+#       对国内域名指定国内 DoH，可提升解析速度与准确性。
+# ------------------------------------------------------------
