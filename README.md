@@ -145,6 +145,26 @@ rules:
 
 ---
 
+## 命令行重建（可选）
+
+Clash Verge 只在 GUI 里「激活订阅」时才重新合并 Merge/Rules 模板，命令行无法
+直接触发。`scripts/rebuild.ps1` 用**同样的合并语义**手动重建运行时配置，并
+通过 mihomo 命名管道 reload，无需打开 GUI：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\rebuild.ps1
+```
+
+脚本流程：
+
+1. 读取订阅原始文件 + Rules 模板 `prepend` 规则
+2. 组装（模板规则在前，订阅规则去重在后）
+3. 用 `verge-mihomo -t` 验证配置
+4. 备份 `clash-verge.yaml` → `.rebuildbak`，写入并 reload
+
+> 修改脚本顶部的「配置区」即可适配其它订阅（`SubFile` / `RulesTpl`）。
+> 该脚本为 Windows PowerShell 5.1 设计，文件需保存为 **UTF-8 with BOM**。
+
 ## 安全说明
 
 - 本仓库**只包含规则与 DNS 模板**，不包含订阅链接、节点密码、token。
