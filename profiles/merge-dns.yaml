@@ -1,0 +1,30 @@
+# Profile Enhancement Merge Template for Clash Verge
+# Profile: Ro7TtLvQPhJ2 (CordCloud)
+# 目的：让 sustech.edu.cn 等校园内网域名使用系统(校园网)DNS 解析，
+#       并排除 fake-ip，避免内网 IP(172.18.x.x) 被代理劫持。
+
+dns:
+  # 校园/内网域名不做 fake-ip，直接走真实解析。
+  # 使用“完整列表”，兼容部分 Clash Verge 版本的“替换”语义，避免丢失订阅自带条目。
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '*.arpa'
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+    - localhost.ptlogin2.qq.com
+    - '*.msftncsi.com'
+    - www.msftconnecttest.com
+    - '*.sustech.edu.cn'
+    - '*.sustc.edu.cn'
+    - '*.sustech.net'
+    - '*.edu.cn'
+
+  # 这些域名用系统(校园网) DNS 解析，才能拿到 172.18.x.x 内网地址
+  # system = 使用操作系统配置的 DNS (校园网下发的路由器/DNS 服务器)
+  nameserver-policy:
+    '+.sustech.edu.cn': system
+    '+.sustc.edu.cn': system
+    '+.sustech.net': system
+    '+.edu.cn': system

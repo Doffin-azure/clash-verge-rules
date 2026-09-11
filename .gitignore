@@ -1,0 +1,29 @@
+# --- Backups generated during manual edits ---
+*.bak
+*.dnsbak
+*.orig
+
+# --- Clash Verge runtime / sensitive files ---
+# These contain subscription URLs, node passwords and tokens.
+clash-verge.yaml
+clash-verge-check.yaml
+config.yaml
+profiles.yaml
+cache.db
+verge.yaml
+dns_config.yaml
+Country.mmdb
+geoip.dat
+geosite.dat
+*window_state.json
+
+# --- OS / editor noise ---
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~
+
+# --- Local scratch ---
+/tmp/
+*.log

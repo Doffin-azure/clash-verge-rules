@@ -1,0 +1,61 @@
+# ============================================================
+# Clash Verge - Merge 模板（样例）
+# 用途：修复 TUN + fake-ip 模式下，校园内网域名（*.sustech.edu.cn 等）
+#       被解析成假 IP（198.18.x.x）导致校内服务无法访问的问题。
+#
+# 原理：
+#   - fake-ip-filter：这些域名不做 fake-ip，走真实解析。
+#   - nameserver-policy：这些域名用系统(校园网)DNS 解析，才能拿到内网 IP。
+#
+# 使用：Clash Verge -> 订阅右键 -> 编辑 Merge，粘贴以下 dns 段。
+#
+# ⚠️ 部分 Clash Verge 版本对 fake-ip-filter 为“替换”语义。
+#    若担心丢失原有条目，请使用“完整列表”写法（见文末注释）。
+# ============================================================
+
+dns:
+  # 校园/内网域名不做 fake-ip，直接走真实解析
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '*.arpa'
+    - '*.msftncsi.com'
+    - www.msftconnecttest.com
+    - '*.sustech.edu.cn'
+    - '*.sustc.edu.cn'
+    - '*.sustech.net'
+    - '*.edu.cn'
+
+  # 这些域名用系统(校园网)DNS 解析，才能拿到 172.18.x.x 内网地址
+  nameserver-policy:
+    '+.sustech.edu.cn': system
+    '+.sustc.edu.cn': system
+    '+.sustech.net': system
+    '+.edu.cn': system
+
+# ------------------------------------------------------------
+# 若你的 Clash Verge 对 fake-ip-filter 是“替换”语义，且需要保留订阅里
+# 自带的更多 filter 条目（time.*.com / ntp.*.com / market.xiaomi.com 等），
+# 可改用下面的“完整列表”写法（把订阅原有条目也一并列出）：
+#
+# dns:
+#   fake-ip-filter:
+#     - '*.lan'
+#     - '*.local'
+#     - '*.arpa'
+#     - time.*.com
+#     - ntp.*.com
+#     - +.market.xiaomi.com
+#     - localhost.ptlogin2.qq.com
+#     - '*.msftncsi.com'
+#     - www.msftconnecttest.com
+#     - '*.sustech.edu.cn'
+#     - '*.sustc.edu.cn'
+#     - '*.sustech.net'
+#     - '*.edu.cn'
+#   nameserver-policy:
+#     '+.sustech.edu.cn': system
+#     '+.sustc.edu.cn': system
+#     '+.sustech.net': system
+#     '+.edu.cn': system
+# ------------------------------------------------------------

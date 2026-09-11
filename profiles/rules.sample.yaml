@@ -1,0 +1,160 @@
+# ============================================================
+# Clash Verge - Rules 模板（样例）
+# 用途：让下列域名直连，不经过中转/代理。
+#
+# 使用：Clash Verge -> 订阅右键 -> 编辑规则，粘贴到 prepend 下。
+# 说明：prepend 的规则会插入到订阅规则最前面，优先命中。
+#
+# 直连目标 <DIRECT_GROUP> 请替换为：
+#   - DIRECT                         （推荐，固定直连，不受策略组手动选择影响）
+#   - 或你订阅里的直连策略组名，如 🎯 全球直连 / ❌不代理
+# ============================================================
+
+prepend:
+  # ===== 教育 / SUSTech =====
+  - DOMAIN-SUFFIX,sustech.edu.cn,<DIRECT_GROUP>
+  - DOMAIN-KEYWORD,sustech,<DIRECT_GROUP>
+
+  # ===== 腾讯 / 微信 =====
+  - DOMAIN-SUFFIX,weixin.qq.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,wx.qq.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,weixin.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,wechat.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,wechatpay.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,weixinbridge.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,tenpay.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,tencent.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,tencent-cloud.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,myqcloud.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,qcloud.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,gtimg.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,qpic.cn,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,weiyun.com,<DIRECT_GROUP>
+
+  # ===== 知乎 =====
+  - DOMAIN-SUFFIX,zhihu.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,zhimg.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,zhihuishu.com,<DIRECT_GROUP>
+  - DOMAIN-KEYWORD,zhihu,<DIRECT_GROUP>
+
+  # ===== 哔哩哔哩 =====
+  - DOMAIN-SUFFIX,bilibili.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,bilibili.tv,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,bilivideo.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,biliapi.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,biliapi.net,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,hdslb.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,b23.tv,<DIRECT_GROUP>
+
+  # ===== 阿里 / 支付宝 =====
+  - DOMAIN-SUFFIX,alibaba.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,alibabacloud.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,alicdn.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,aliyun.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,aliyuncdn.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,aliyuncs.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,taobao.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,tmall.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,alipay.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,alipayobjects.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,mmstat.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,1688.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,dingtalk.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,amap.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,autonavi.com,<DIRECT_GROUP>
+
+  # ===== 字节跳动 =====
+  - DOMAIN-SUFFIX,bytedance.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,bytednsdoc.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,douyin.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,toutiao.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,ixigua.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,feishu.cn,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,larksuite.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,zijieapi.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,snssdk.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,pstatp.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,byteimg.com,<DIRECT_GROUP>
+
+  # ===== 百度 =====
+  - DOMAIN-SUFFIX,baidu.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,baidubce.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,bdstatic.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,bdimg.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,baidupcs.com,<DIRECT_GROUP>
+
+  # ===== 京东 =====
+  - DOMAIN-SUFFIX,jd.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,jd.hk,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,360buyimg.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,jdpay.com,<DIRECT_GROUP>
+
+  # ===== 网易 =====
+  - DOMAIN-SUFFIX,163.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,126.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,126.net,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,netease.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,127.net,<DIRECT_GROUP>
+
+  # ===== 新浪 / 微博 =====
+  - DOMAIN-SUFFIX,weibo.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,weibo.cn,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,sina.com.cn,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,sinaimg.cn,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,sinajs.cn,<DIRECT_GROUP>
+
+  # ===== 小米 =====
+  - DOMAIN-SUFFIX,xiaomi.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,mi.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,miui.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,xiaomiyun.com,<DIRECT_GROUP>
+
+  # ===== 华为 / 荣耀 =====
+  - DOMAIN-SUFFIX,huawei.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,huaweicloud.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,hihonor.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,vmall.com,<DIRECT_GROUP>
+
+  # ===== 视频 =====
+  - DOMAIN-SUFFIX,iqiyi.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,iqiyipic.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,qiyi.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,youku.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,mgtv.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,le.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,letv.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,migucloud.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,kuaishou.com,<DIRECT_GROUP>
+
+  # ===== 音乐 =====
+  - DOMAIN-SUFFIX,qqmusic.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,kugou.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,kuwo.cn,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,xiami.com,<DIRECT_GROUP>
+
+  # ===== 生活 / 出行 =====
+  - DOMAIN-SUFFIX,dianping.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,meituan.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,meituan.net,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,ctrip.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,qunar.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,12306.cn,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,maoyan.com,<DIRECT_GROUP>
+
+  # ===== 开发 / 社区 =====
+  - DOMAIN-SUFFIX,gitee.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,oschina.net,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,cnblogs.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,csdn.net,<DIRECT_GROUP>
+
+  # ===== 其他常用 =====
+  - DOMAIN-SUFFIX,pinduoduo.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,yangkeduo.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,xueqiu.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,sohu.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,ifeng.com,<DIRECT_GROUP>
+  - DOMAIN-SUFFIX,ximalaya.com,<DIRECT_GROUP>
+
+append: []
+
+delete: []
