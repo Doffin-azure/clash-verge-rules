@@ -2,10 +2,10 @@
 
 一组用于 **Clash Verge (Rev)** 的 **Merge / Rules 增强模板**，解决两个实际问题：
 
-1. **国内域名直连** —— 让 SUSTech、微信、知乎、Bilibili 等常见国内域名
+1. **国内域名直连** —— 让 微信、知乎、Bilibili 等常见国内域名
    不经中转/代理。
 2. **校园内网 DNS 修复** —— 修复 **TUN + fake-ip** 模式下，校内域名
-   （`*.sustech.edu.cn` 等）被解析成假 IP（`198.18.x.x`）、导致无法访问
+   被解析成假 IP（`198.18.x.x`）、导致无法访问
    校内系统（如 `https://tis.sustech.edu.cn/`）的问题。
 
 > 模板以 Clash Verge 的 **Profile Enhancement（增强配置）** 形式工作：
