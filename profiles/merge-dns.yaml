@@ -24,6 +24,57 @@ dns:
   # 这些域名用系统(校园网) DNS 解析，才能拿到 172.18.x.x 内网地址
   # system = 使用操作系统配置的 DNS (校园网下发的路由器/DNS 服务器)
   nameserver-policy:
+    '+.code.tencent.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.tencent.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.qq.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.qcloud.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.myqcloud.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.tencentcloud.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.tencent-cloud.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.qcloudimg.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.gtimg.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.idqqimg.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.wechat.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.weixin.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.servicewechat.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.wegame.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.wegame.com.cn':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.tenpay.com':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    '+.cdn-go.cn':
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
     '+.sustech.edu.cn': system
     '+.sustc.edu.cn': system
     '+.sustech.net': system
