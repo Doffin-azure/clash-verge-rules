@@ -174,3 +174,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\rebuild.ps1
 ## License
 
 MIT
+
+
+## 腾讯直连与 DNS 配置（2026-11）
+
+- `profiles/tencent-direct.js` 是全局扩展脚本：将腾讯相关域名及 `GEOSITE,tencent` 放到规则前部并指定 `DIRECT`，同时尝试追加 fake-IP 排除项。
+- `profiles/merge-dns.yaml` 是当前订阅的 Merge 模板，包含腾讯域名（包括 `cdn-go.cn`）使用 DNSPod 和阿里 DNS 的策略，并保留校园网域名使用系统 DNS 的策略。
+- `profiles/dns-settings-tencent.sample.yaml` 是本机 DNS 设置的脱敏示例，包含腾讯域名的 fake-IP 排除项。启用 Clash Verge 的 DNS 设置时，DNS 设置可能覆盖扩展脚本或 Merge 中的 `fake-ip-filter`；请将这些排除项合并到实际生效的 DNS 设置中，保留原有条目，不要直接覆盖其他网络所需的配置。校园网域名也应按实际情况保留 fake-IP 排除项。
+
+修改后在 Clash Verge 订阅页面重新激活当前订阅，检查运行时配置的 `dns.fake-ip-filter` 和 `dns.nameserver-policy`，并在连接页面确认 `git.code.tencent.com` 和 `cdn-go.cn` 命中直连。示例只包含规则与 DNS 配置，切勿提交订阅链接、节点配置、令牌或生成的完整运行时配置。
