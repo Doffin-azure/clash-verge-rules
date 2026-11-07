@@ -183,3 +183,33 @@ MIT
 - `profiles/dns-settings-tencent.sample.yaml` 是本机 DNS 设置的脱敏示例，包含腾讯域名的 fake-IP 排除项。启用 Clash Verge 的 DNS 设置时，DNS 设置可能覆盖扩展脚本或 Merge 中的 `fake-ip-filter`；请将这些排除项合并到实际生效的 DNS 设置中，保留原有条目，不要直接覆盖其他网络所需的配置。校园网域名也应按实际情况保留 fake-IP 排除项。
 
 修改后在 Clash Verge 订阅页面重新激活当前订阅，检查运行时配置的 `dns.fake-ip-filter` 和 `dns.nameserver-policy`，并在连接页面确认 `git.code.tencent.com` 和 `cdn-go.cn` 命中直连。示例只包含规则与 DNS 配置，切勿提交订阅链接、节点配置、令牌或生成的完整运行时配置。
+
+## Tailscale 与 Clash Verge
+
+`profiles/tailscale-direct.js` 是可选的 Clash Verge Rev 扩展脚本，适用于已经安装并连接 Tailscale、启用 MagicDNS，且希望 Clash 将 Tailscale 域名交给本机系统路由的场景。它只添加以下通用配置：
+
+- 在规则最前方放置 `DOMAIN-SUFFIX,ts.net,DIRECT`，以及 Tailscale 本机 DNS 服务 Quad100 的 `IP-CIDR,100.100.100.100/32,DIRECT,no-resolve`；不会自动加入整个 `100.64.0.0/10` 地址段。
+- 若没有针对 `ts.net` 的现有精确或通配 DNS 策略，添加 `+.ts.net` → `100.100.100.100`。已有的 `ts.net`、`+.ts.net` 或 `*.ts.net` 策略会保留，需自行核实其上游是否能够解析目标名称。
+- `fake-ip-filter-mode` 为默认的 `blacklist` 时，将 `+.ts.net` 加入过滤列表；为 `rule` 时，将 `DOMAIN-SUFFIX,ts.net,real-ip` 放在列表前部。`whitelist` 模式中匹配项反而会获得 fake-IP，脚本保留原列表，不自动添加或删除条目；如果已有宽泛匹配覆盖了目标域名，需要按实际配置手动调整并验证。
+
+脚本不会启用 Tailscale、MagicDNS 或 Clash DNS，不会设置 TUN 路由、写入节点密钥，也不保证 `DIRECT` 一定能绕过操作系统或 TUN 的其他路由。它对 `ts.net` 使用 Quad100：Tailscale 未连接、MagicDNS 不可用或其他 DNS 策略更具体时，名称解析可能失败；这也可能影响通过公共网络访问的 `ts.net` 服务，请按实际需要选择是否启用。已有 `100.64.0.0/10` 网络也可能与 Tailscale 地址冲突，不能单靠此脚本解决。
+
+### 与现有腾讯直连脚本共存
+
+如果还没有自定义扩展脚本，可将 `tailscale-direct.js` 作为全局扩展脚本使用。已有 `tencent-direct.js` 或其他全局脚本时，不要覆盖它，也不要同时保留两个 `main` 入口：
+
+仓库现有 `tencent-direct.js` 的 fake-IP 域名条目按 `blacklist` 语义编写。若实际模式为 `rule`，它直接追加的域名条目不符合规则格式；若为 `whitelist`，这些匹配项会得到 fake-IP。使用这两种模式时，应先分别适配并核验现有腾讯脚本，再合并 Tailscale 函数；本次 Tailscale 脚本不会修改腾讯脚本。
+
+1. 将 `tailscale-direct.js` 中的 `applyTailscaleDirect` 函数复制到现有脚本中；不复制文件底部的 `main` 函数。
+2. 保留现有 `main` 中全部逻辑，将其最后的 `return config;` 改为 `return applyTailscaleDirect(config);`。
+3. 保存并重新应用目标订阅。现有全局脚本会先运行，Tailscale 函数最后把两条规则放到最前面。
+
+Clash Verge 的订阅扩展和应用设置可能在全局脚本之后覆盖 DNS 字段；尤其在启用应用 DNS 设置时，检查**最终运行时配置**中的 `rules`、`dns.nameserver-policy` 和 `dns.fake-ip-filter`，不要只检查脚本内容。必要时在目标订阅的扩展脚本中合并相同辅助函数，同时保留原有订阅脚本。`dns.enable` 关闭或 `enhanced-mode` 为 `redir-host` 时，fake-IP 过滤不适用，脚本不会改变这两个设置。
+
+如果配置了 `dns.direct-nameserver`，且 `direct-nameserver-follow-policy` 为 `false` 或未设置，DIRECT 出站重新解析域名时可能不遵循上面的 DNS 策略；请检查实际生效的解析方式。脚本不会自动更改这两个全局设置。
+
+在设备上先确认 Tailscale 已连接，并能通过 Quad100 正确解析自己的 MagicDNS 名称，再查看 Clash「连接」是否命中预期的 DIRECT 规则。不同系统的 TUN、DNS 和路由行为可能不同；如果出现冲突，需要按设备核实实际连接，不能把静态配置校验视为端到端验证。
+
+Android 的 Tailscale 与使用 VPN 模式的 Clash 客户端通常不能同时占用系统 VPN。可以参考 [Android 内置 Tailscale 出站示例](profiles/android-tailscale.example.md)，尝试由 Clash 加入同一个私有网络；示例仍需在具体设备上验证。本脚本不配置该出站，也不存储登录密钥或设备状态。
+
+参考：[Clash Verge 扩展脚本及优先级](https://www.clashverge.dev/guide/extend.html)、[mihomo DNS 配置](https://wiki.metacubex.one/en/config/dns/)、[Tailscale Quad100](https://tailscale.com/docs/reference/quad100)、[Tailscale 与其他 VPN](https://tailscale.com/docs/reference/faq/other-vpns)、[mihomo Tailscale 出站](https://wiki.metacubex.one/en/config/proxies/tailscale/)。
