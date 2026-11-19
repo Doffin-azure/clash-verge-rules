@@ -1,0 +1,19 @@
+# Clash Verge DNS 覆写补丁（校外 / 手机热点），不是完整订阅。
+# 合并到现有 DNS 覆写；保留其他 fake-ip-filter 和 nameserver-policy 条目。
+# 适用于 fake-ip-filter-mode: blacklist；rule/whitelist 模式需另行适配。
+# 校内专用域名仍需校园 DNS 或学校 VPN；此补丁不会提供校内路由。
+dns:
+  fake-ip-filter:
+    - '+.sustech.edu.cn'
+    - '+.sustc.edu.cn'
+    - '+.sustech.net'
+  nameserver-policy:
+    '+.sustech.edu.cn':
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
+    '+.sustc.edu.cn':
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
+    '+.sustech.net':
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query

@@ -13,6 +13,33 @@
 
 ---
 
+## 校外 / 手机热点访问 BB、CAS（2026-11-19）
+
+如果启用了 Clash Verge 的 **DNS 覆写**，Merge 模板中的 `fake-ip-filter`
+可能被应用设置中的列表替换。只修改 Merge 文件并不足以修复实际运行配置。
+
+本次手机热点实测发现：`bb.sustech.edu.cn` 先返回 `198.18.0.5`；
+补上排除项后，既有 `nameserver-policy: system` 仍解析超时。
+将南科大三个域名后缀改用国内 DoH 后，BB 解析为真实地址，Safari 成功跳转至
+`cas.sustech.edu.cn` 并显示 CAS 登录页。验证到登录入口，未包含账号认证。
+
+使用 [校外 DNS 覆写补丁](profiles/dns-overrides-sustech-offcampus.sample.yaml)：
+
+1. Clash Verge → 设置 → DNS 覆写，确认过滤模式为 `blacklist`。
+2. 将补丁中的三个域名追加到现有 Fake IP 过滤列表，保留已有条目（如 Tailscale）。
+3. 在域名服务器策略中，为这三个后缀设置补丁列出的 DoH；覆盖它们既有的
+   `system` 策略，保留其他域名策略。GUI 格式为 `domain=server1;server2`，多条用逗号分隔。
+4. 保存后核对最终运行时配置，再访问 `https://bb.sustech.edu.cn/`；应能显示 CAS 登录页。
+
+此文件是**补丁**，不要用其中的短列表替换整个 DNS 设置。
+本节适用于当前校外网络；校内专用域名可能只有校园 DNS 能解析，应在校园网络或
+学校 VPN 下使用原有校园 DNS 配置。`system` 不保证等于校园 DNS，尤其是在热点、
+自定义系统 DNS 或 Tailscale 共存时。不要硬编码本次查询得到的 BB 地址。
+
+参考：[mihomo DNS 配置](https://wiki.metacubex.one/config/dns/)。
+
+---
+
 ## 问题背景
 
 ### 问题 1：内网域名被 fake-ip 劫持
