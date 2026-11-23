@@ -7,7 +7,7 @@
 #   (clash-verge.yaml)，并通过 mihomo 命名管道 reload，使其立即生效。
 #
 # 用法（管理员 PowerShell 可选）：
-#   powershell -NoProfile -ExecutionPolicy Bypass -File .\rebuild.ps1
+#   .\rebuild.ps1 -SubFile <subscription.yaml> -RulesTpl <rules.yaml> -MihomoPath <verge-mihomo.exe>
 #
 # 说明：
 #   - 会先备份当前 clash-verge.yaml 到 clash-verge.yaml.rebuildbak
@@ -15,14 +15,18 @@
 #   - 若之后在 GUI 里手动重载订阅，Verge 会用模板生成等价配置，效果一致
 # ============================================================
 
+param(
+  [Parameter(Mandatory = $true)][string]$SubFile,
+  [Parameter(Mandatory = $true)][string]$RulesTpl,
+  [string]$VergeDir = "$env:APPDATA\io.github.clash-verge-rev.clash-verge-rev",
+  [string]$MihomoPath,
+  [string]$PipeName = 'verge-mihomo'
+)
+
 $ErrorActionPreference = 'Stop'
 
 # ---- 配置区：按需修改 ----
-$VergeDir   = "$env:APPDATA\io.github.clash-verge-rev.clash-verge-rev"
-$SubFile    = "$VergeDir\profiles\Ro7TtLvQPhJ2.yaml"    # 订阅原始文件
-$RulesTpl   = "$VergeDir\profiles\rfM7F3l6g1MO.yaml"    # Rules 模板
-$Runtime    = "$VergeDir\clash-verge.yaml"              # 运行时配置
-$PipeName   = 'verge-mihomo'
+$Runtime = Join-Path $VergeDir 'clash-verge.yaml'
 # --------------------------
 
 function Read-Utf8Lines($p) { return [System.IO.File]::ReadAllLines($p, [System.Text.Encoding]::UTF8) }
@@ -90,12 +94,11 @@ Write-Host ("     总行数: " + $out.Count)
 
 # ---- 验证 ----
 Write-Host "[3/5] 验证配置..."
-$mihomo = 'C:\Program Files\Clash Verge\verge-mihomo.exe'
-if (Test-Path $mihomo) {
-  $res = & $mihomo -t -f $tmp -d $VergeDir 2>&1
+if ($MihomoPath) {
+  $res = & $MihomoPath -t -f $tmp -d $VergeDir 2>&1
   if ($res -match 'test is successful') { Write-Host '     验证成功' }
   else { Write-Host '     验证失败:'; $res | Select-Object -Last 5; throw '配置验证失败，已中止' }
-} else { Write-Host '     未找到 verge-mihomo.exe，跳过验证' }
+} else { Write-Host '     未指定 -MihomoPath，跳过验证' }
 
 # ---- 备份并写入 ----
 Write-Host "[4/5] 备份并应用..."
