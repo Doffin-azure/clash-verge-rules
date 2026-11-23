@@ -18,7 +18,7 @@
 2. 将 DNS 模板的条目并入实际使用的 DNS 配置。Clash Verge Rev 2.5.5 起，扩展中写出的 `dns` 子字段按整个字段替换。编辑 `fake-ip-filter` 或 `nameserver-policy` 时，把仍需保留的原有条目一并写入。启用应用级 **DNS 覆写** 时，检查其中的设置是否覆盖了扩展生成的字段。
 3. 重新激活订阅。打开运行时配置检查 `rules`、`dns.fake-ip-filter` 和 `dns.nameserver-policy`，然后在「连接」页核对目标域名是否命中预期规则。
 
-针对特定订阅可使用 [CordCloud 规则](profiles/rules.cordcloud.yaml) 或 [xmrth 规则](profiles/rules.xmrth.yaml)。[Windows 重建脚本](scripts/rebuild.ps1) 接受 `-SubFile`、`-RulesTpl`、`-VergeDir` 和 `-MihomoPath`，将路径指向当前设备的订阅、模板、配置目录和可执行程序。
+针对特定订阅可使用 [CordCloud 规则](profiles/rules.cordcloud.yaml) 或 [xmrth 规则](profiles/rules.xmrth.yaml)。先运行 `python -m pip install -r scripts/requirements.txt`。[Windows 重建脚本](scripts/rebuild.ps1) 接收 `-SubFile`、`-RulesTpl`、`-VergeDir`、`-MihomoPath` 和 `-PipeName`。脚本保留运行时配置的其他字段，使用模板和订阅生成规则，并通过命名管道重载 Mihomo。重载失败时恢复原配置文件。
 
 参考 [Clash Verge Rev 扩展文档](https://www.clashverge.dev/guide/extend.html) 与 [mihomo DNS 文档](https://wiki.metacubex.one/en/config/dns/)。
 
