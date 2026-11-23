@@ -15,7 +15,7 @@
 ## 应用并检查
 
 1. 在 Clash Verge Rev 的订阅页面编辑目标订阅。将直连模板的条目合并到 Rules 的 `prepend`，并把 `<DIRECT_GROUP>` 替换为 `DIRECT` 或订阅里已有的直连组。
-2. 将 DNS 模板的条目合并进实际使用的 DNS 配置，保留原有过滤列表和域名策略。启用应用级 **DNS 覆写** 时，检查其中的设置是否覆盖了 Merge 或扩展脚本生成的字段。
+2. 将 DNS 模板的条目并入实际使用的 DNS 配置。Clash Verge Rev 2.5.5 起，扩展中写出的 `dns` 子字段按整个字段替换。编辑 `fake-ip-filter` 或 `nameserver-policy` 时，把仍需保留的原有条目一并写入。启用应用级 **DNS 覆写** 时，检查其中的设置是否覆盖了扩展生成的字段。
 3. 重新激活订阅。打开运行时配置检查 `rules`、`dns.fake-ip-filter` 和 `dns.nameserver-policy`，然后在「连接」页核对目标域名是否命中预期规则。
 
 ## 校外访问 BB、CAS
@@ -31,3 +31,5 @@
 另有针对特定订阅的 [CordCloud 规则](profiles/rules.cordcloud.yaml)、[xmrth 规则](profiles/rules.xmrth.yaml) 和 [Windows 重建脚本](scripts/rebuild.ps1)。运行重建脚本前，先核对脚本顶部的安装和订阅路径。
 
 参考 [Clash Verge Rev 扩展文档](https://www.clashverge.dev/guide/extend.html) 与 [mihomo DNS 文档](https://wiki.metacubex.one/en/config/dns/)。
+
+规则参考 [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)、[Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) 和 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)。仓库按 MIT 许可发布。
